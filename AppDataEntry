@@ -1,0 +1,47 @@
+# AppDataEntry
+##My original code for a hypothetical food tracking app. 
+##This project highlights my ability to update, alter, and delete data.
+
+#The following table is for a food tracking app. The user can log the food or drink that they consume. The details include if it was at breakfast,lunch, dinner, or a snack, how much was consumed in grams and the corresponding amount of calories.
+
+CREATE TABLE food_tracker ( 
+    data_entry INTEGER PRIMARY KEY,
+    food TEXT,
+    meal TEXT,
+    amount REAL,
+    calories INTEGER);
+INSERT INTO food_tracker (food, meal, amount,calories) 
+VALUES
+('Apple', 'snack', 10, 5),
+('French Toast', 'breakfast', 50, 350),
+('Sandwhich', 'lunch', 55, 467),
+('Water', 'lunch', 42, 0),
+('Carrots', 'snack', 20, 25),
+('Burger', 'dinner', 70, 570),
+('Soda', 'dessert', 20, 25),
+('Chocolate', 'dessert', 5, 30);
+
+SELECT *
+FROM food_tracker;
+#Updated the first entry from "Apple" to "Orange"
+UPDATE food_tracker SET food = 'Orange', calories = 15 WHERE data_entry=1;
+
+SELECT * 
+FROM food_tracker;
+
+#Added a column to measure satisfaction after each food item.
+ALTER TABLE food_tracker ADD satisfaction INTEGER;
+UPDATE food_tracker SET satisfaction = 1 WHERE data_entry = 1;
+UPDATE food_tracker SET satisfaction = 1 WHERE data_entry = 2;
+UPDATE food_tracker SET satisfaction = 0 WHERE data_entry = 3;
+UPDATE food_tracker SET satisfaction = 1 WHERE data_entry = 4;
+UPDATE food_tracker SET satisfaction = 0 WHERE data_entry = 5;
+UPDATE food_tracker SET satisfaction = 1 WHERE data_entry = 6;
+UPDATE food_tracker SET satisfaction = 0 WHERE data_entry = 7;
+UPDATE food_tracker SET satisfaction = 1 WHERE data_entry = 8;
+
+SELECT * FROM food_tracker;
+
+DELETE FROM food_tracker WHERE calories = 0;
+
+SELECT * FROM food_tracker;
