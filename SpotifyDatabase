@@ -1,0 +1,63 @@
+#This project was based on a data set from Kaggle of Spotify top 50 songs in 2021.
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+song_key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+song_mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness decimal(8,7) NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL );
+
+##The following are analysis questions I curated to better understand the data.
+
+#Which artists had 2 or more songs on the top 50 list? How many songs did they have?
+SELECT artist_name, COUNT(*) as song_count
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+HAVING song_count>1
+ORDER BY song_count desc;
+
+#What is the relationship between danceability and energy score?
+SELECT danceability, energy
+FROM BIT_DB.Spotifydata
+GROUP BY danceability
+ORDER BY danceability desc;
+
+#Categorize the songs for playlist curation based on energy 
+#and tell how many in each category
+SELECT Count(*),
+CASE WHEN energy>=.85 THEN "workout"
+WHEN energy>=.70 THEN "pregame"
+WHEN energy>=.55 THEN "work"
+ELSE "snooze" END playlist
+FROM BIT_DB.Spotifydata
+GROUP BY playlist;
+
+#What is the average duration of the most popular songs?
+SELECT avg(duration_ms/1000) 
+FROM BIT_DB.Spotifydata
+WHERE popularity>=90;
+
+#Who are the top 5 Artists with the highest average liveness?
+SELECT artist_name, avg(liveness) as average_liveness
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY average_liveness desc
+LIMIT 5;
+
+*//Which song has the highest acousticness and what is its popularity?
+SELECT artist_name, track_name, acousticness, popularity
+FROM BIT_DB.Spotifydata
+ORDER BY acousticness desc
+LIMIT 1;
