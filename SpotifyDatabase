@@ -61,3 +61,13 @@ SELECT artist_name, track_name, acousticness, popularity
 FROM BIT_DB.Spotifydata
 ORDER BY acousticness desc
 LIMIT 1;
+
+#Use of a CTE to find the artists with highest average popularity
+WITH tempTable AS (
+SELECT s.artist_name, avg(s.popularity) as average_popularity
+FROM Spotifydata s
+GROUP BY artist_name)
+
+SELECT artist_name, average_popularity, 'Top Star' AS tag 
+FROM tempTable
+WHERE average_popularity>=90;
